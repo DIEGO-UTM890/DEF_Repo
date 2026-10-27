@@ -1,5 +1,6 @@
 import React from 'react';
 import { 
+  ShieldAlert,
   ListOrdered, 
   PlusCircle, 
   BarChart3, 
@@ -18,6 +19,19 @@ export default function MobileBottomNav({
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 px-3 py-2 flex items-center justify-around shadow-2xl">
       
+      {/* Consola de Rol */}
+      <button
+        onClick={() => setCurrentTab('role_dashboard')}
+        className={`flex flex-col items-center justify-center p-2 rounded-2xl flex-1 transition-all ${
+          currentTab === 'role_dashboard'
+            ? 'text-blue-600 dark:text-blue-400 font-bold'
+            : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+        }`}
+      >
+        <ShieldAlert className="w-5 h-5" />
+        <span className="text-[11px] mt-1">Consola</span>
+      </button>
+
       {/* Incidencias */}
       <button
         onClick={() => setCurrentTab('list')}

@@ -6,6 +6,7 @@ export const INITIAL_USERS = [
     matricula_o_empleado: "EMP-2026-089",
     nombre_completo: "Carlos Eduardo Méndez Pech",
     correo_institucional: "carlos.mendez@utmerida.edu.mx",
+    password: "tecnico123",
     rol: "tecnico",
     area_asignada: "computo_redes",
     activo: true,
@@ -16,6 +17,7 @@ export const INITIAL_USERS = [
     matricula_o_empleado: "DOC-2026-014",
     nombre_completo: "Dra. Laura Beatriz Gómez",
     correo_institucional: "laura.gomez@utmerida.edu.mx",
+    password: "reportante123",
     rol: "reportante",
     area_asignada: "academico",
     activo: true,
@@ -26,6 +28,7 @@ export const INITIAL_USERS = [
     matricula_o_empleado: "DOC-2026-022",
     nombre_completo: "Mtro. Jorge Alberto Cetina Uc",
     correo_institucional: "jorge.cetina@utmerida.edu.mx",
+    password: "reportante123",
     rol: "reportante",
     area_asignada: "academico",
     activo: true,
@@ -36,6 +39,7 @@ export const INITIAL_USERS = [
     matricula_o_empleado: "ADM-2026-003",
     nombre_completo: "Ing. Roberto Solís Castillo",
     correo_institucional: "roberto.solis@utmerida.edu.mx",
+    password: "coordinador123",
     rol: "coordinador",
     area_asignada: "general",
     activo: true,
@@ -46,6 +50,7 @@ export const INITIAL_USERS = [
     matricula_o_empleado: "DIR-2026-001",
     nombre_completo: "Mtra. Silvia Escalante Medina",
     correo_institucional: "silvia.escalante@utmerida.edu.mx",
+    password: "directivo123",
     rol: "directivo",
     area_asignada: "general",
     activo: true,
@@ -56,10 +61,22 @@ export const INITIAL_USERS = [
     matricula_o_empleado: "SIS-2026-001",
     nombre_completo: "Lic. Andrea Moguel Carrillo",
     correo_institucional: "andrea.moguel@utmerida.edu.mx",
+    password: "admin123",
     rol: "admin",
     area_asignada: "general",
     activo: true,
     fecha_registro: "2026-08-01T08:00:00.000Z"
+  },
+  {
+    _id: "6713f1a9c8d4e12345678915",
+    matricula_o_empleado: "ROOT-2026-001",
+    nombre_completo: "Ing. Super Administrador Cloud",
+    correo_institucional: "superadmin@utmerida.edu.mx",
+    password: "superadmin123",
+    rol: "superadmin",
+    area_asignada: "general",
+    activo: true,
+    fecha_registro: "2026-07-01T08:00:00.000Z"
   }
 ];
 
@@ -364,11 +381,11 @@ export const PRIORIDADES = [
 ];
 
 export const ESTADOS = [
-  { id: "abierta", label: "Abierta", color: "bg-sky-100 text-sky-800 dark:bg-sky-950/60 dark:text-sky-300 border-sky-300 dark:border-sky-800" },
-  { id: "en_proceso", label: "En Proceso", color: "bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 border-blue-300 dark:border-blue-800" },
-  { id: "en_espera", label: "En Espera", color: "bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300 border-amber-300 dark:border-amber-800" },
-  { id: "resuelta", label: "Resuelta", color: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800" },
-  { id: "cerrada", label: "Cerrada", color: "bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-300 border-slate-400 dark:border-slate-700" }
+  { id: "abierta", label: "Abierta", color: "bg-sky-100 text-sky-800 dark:bg-sky-950/40 dark:text-sky-300 border-sky-300 dark:border-sky-800/60" },
+  { id: "en_proceso", label: "En Proceso", color: "bg-indigo-100 text-indigo-800 dark:bg-[#4F46E5]/15 dark:text-[#818CF8] border-indigo-300 dark:border-[#4F46E5]/30" },
+  { id: "en_espera", label: "En Espera", color: "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300 border-amber-300 dark:border-amber-800/60" },
+  { id: "resuelta", label: "Resuelta", color: "bg-emerald-100 text-emerald-800 dark:bg-[#10B981]/15 dark:text-[#10B981] border-emerald-300 dark:border-[#10B981]/30" },
+  { id: "cerrada", label: "Cerrada", color: "bg-slate-200 text-slate-800 dark:bg-[#1E293B] dark:text-[#94A3B8] border-slate-400 dark:border-[#2A3447]" }
 ];
 
 export const ROLES_CONFIG = {

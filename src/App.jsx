@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import RoleSwitcherBar from './components/RoleSwitcherBar';
 import ReportForm from './components/ReportForm';
 import IncidentList from './components/IncidentList';
 import IncidentDetailModal from './components/IncidentDetailModal';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import UserManagement from './components/UserManagement';
 import MobileBottomNav from './components/MobileBottomNav';
+import RolePortalLogin from './components/RolePortalLogin';
 
 // Vistas dedicadas por Rol
 import ReportanteDashboard from './components/views/ReportanteDashboard';
@@ -22,15 +22,26 @@ import { Database, Server, HardDrive } from 'lucide-react';
 export default function App() {
   // Manejo del Tema Claro / Oscuro con persistencia
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('utmdesk_theme') || 'light';
+    return localStorage.getItem('utmdesk_theme') || 'dark';
   });
 
-  // Manejo del Rol Activo para simulación interactiva
-  const [currentRole, setCurrentRole] = useState(() => {
-    return localStorage.getItem('utmdesk_role') || 'reportante';
+  // Usuario autenticado activo en el sistema (null si no ha iniciado sesión)
+  const [activeUser, setActiveUser] = useState(() => {
+    const saved = localStorage.getItem('utmdesk_active_user');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return null;
   });
 
-  // Pestaña actual: 'role_dashboard' (por defecto muestra la interfaz del rol) | 'list' | 'new' | 'stats' | 'users'
+  // Rol activo derivado del usuario logueado o por defecto reportante
+  const currentRole = activeUser?.rol || 'reportante';
+
+  // Pestaña actual: 'role_dashboard' (consola del rol) | 'list' | 'new' | 'stats' | 'users'
   const [currentTab, setCurrentTab] = useState('role_dashboard');
 
   // Estado de Incidencias con persistencia local
@@ -46,14 +57,39 @@ export default function App() {
     return INITIAL_INCIDENTS;
   });
 
-  // Estado de Usuarios con persistencia local
+  // Estado de Usuarios con persistencia local y auto-reparación de credenciales
   const [users, setUsers] = useState(() => {
     const saved = localStorage.getItem('utmdesk_users');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const existingIds = new Set(parsed.map(u => u._id));
+          const existingEmails = new Set(parsed.map(u => u.correo_institucional?.toLowerCase()));
+
+          const updated = parsed.map(u => {
+            const initial = INITIAL_USERS.find(iu => 
+              iu._id === u._id || 
+              iu.correo_institucional?.toLowerCase() === u.correo_institucional?.toLowerCase()
+            );
+            return {
+              ...u,
+              password: initial?.password || u.password || 'utm2026',
+              activo: u.activo !== false
+            };
+          });
+
+          // Asegurar que todos los roles demo de INITIAL_USERS estén disponibles
+          INITIAL_USERS.forEach(iu => {
+            if (!existingIds.has(iu._id) && !existingEmails.has(iu.correo_institucional?.toLowerCase())) {
+              updated.push(iu);
+            }
+          });
+
+          return updated;
+        }
       } catch (e) {
-        console.error(e);
+        console.error('Error al leer usuarios de localStorage:', e);
       }
     }
     return INITIAL_USERS;
@@ -82,19 +118,27 @@ export default function App() {
     localStorage.setItem('utmdesk_users', JSON.stringify(users));
   }, [users]);
 
+  // Persistir usuario activo
   useEffect(() => {
-    localStorage.setItem('utmdesk_role', currentRole);
-  }, [currentRole]);
+    if (activeUser) {
+      localStorage.setItem('utmdesk_active_user', JSON.stringify(activeUser));
+    } else {
+      localStorage.removeItem('utmdesk_active_user');
+    }
+  }, [activeUser]);
 
-  // Al cambiar de rol, regresar a la vista del dashboard de ese rol
-  const handleSelectRole = (newRole) => {
-    setCurrentRole(newRole);
+  // Iniciar sesión con un usuario validado
+  const handleAuthenticate = (user) => {
+    setActiveUser(user);
     setCurrentTab('role_dashboard');
   };
 
-  // Obtener usuario activo representativo según el rol
-  const currentRoleUser = users.find(u => u.rol === currentRole) || users[0];
-  const roleConfig = ROLES_CONFIG[currentRole] || ROLES_CONFIG.reportante;
+  // Cerrar sesión y regresar al portal de acceso por roles
+  const handleLogout = () => {
+    setActiveUser(null);
+    setCurrentTab('role_dashboard');
+    setSelectedIncident(null);
+  };
 
   // Agregar nuevo reporte
   const handleAddIncident = (newIncident) => {
@@ -108,7 +152,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0F17] text-slate-900 dark:text-[#F1F5F9] flex flex-col font-sans transition-colors duration-200">
       
       {/* Barra de Navegación Principal */}
       <Navbar
@@ -116,152 +160,164 @@ export default function App() {
         setCurrentTab={setCurrentTab}
         theme={theme}
         setTheme={setTheme}
-        currentRole={currentRole}
-        setCurrentRole={handleSelectRole}
+        activeUser={activeUser}
         incidentsCount={incidents.length}
+        onLogout={handleLogout}
       />
 
       {/* Contenido Principal */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 md:pb-12">
         
-        {/* Selector Rápido de Roles (Llamativo y Directo para Probar cada Vista) */}
-        <RoleSwitcherBar
-          currentRole={currentRole}
-          setCurrentRole={handleSelectRole}
-        />
-
         {/* ============================================================== */}
-        {/* RENDERIZADO DINÁMICO SEGÚN PESTAÑA O DASHBOARD DE ROL */}
+        {/* CASO 1: SIN SESIÓN ACTIVA (BLOQUEO TOTAL) */}
+        {/* Muestra únicamente los Portales de Acceso y Login por Rol */}
         {/* ============================================================== */}
-
-        {/* 1. Vista de Formulario de Nuevo Reporte */}
-        {currentTab === 'new' && (
-          <ReportForm
-            onAddIncident={handleAddIncident}
-            onCancel={() => setCurrentTab('role_dashboard')}
-            currentRoleUser={currentRoleUser}
-          />
-        )}
-
-        {/* 2. Vista de Explorador General de Incidencias */}
-        {currentTab === 'list' && (
-          <IncidentList
-            incidents={incidents}
-            onSelectIncident={setSelectedIncident}
-            onNewIncident={() => setCurrentTab('new')}
-            currentRole={currentRole}
-            currentRoleUser={currentRoleUser}
-          />
-        )}
-
-        {/* 3. Vista General de Estadísticas */}
-        {currentTab === 'stats' && (
-          <AnalyticsDashboard
-            incidents={incidents}
-          />
-        )}
-
-        {/* 4. Vista General de Gestión de Usuarios */}
-        {currentTab === 'users' && (
-          <UserManagement
+        {!activeUser ? (
+          <RolePortalLogin
             users={users}
-            onUpdateUsers={setUsers}
+            onAuthenticate={handleAuthenticate}
+            onResetDemoData={() => {
+              setUsers(INITIAL_USERS);
+              localStorage.setItem('utmdesk_users', JSON.stringify(INITIAL_USERS));
+            }}
           />
-        )}
-
-        {/* 5. INTERFACES ESPECIALIZADAS POR CADA ROL */}
-        {currentTab === 'role_dashboard' && (
+        ) : (
+          /* ============================================================== */
+          /* CASO 2: SESIÓN AUTENTICADA (ACCESO AL PANEL DEL ROL) */
+          /* ============================================================== */
           <>
-            {/* Interfaz Rol 1: Reportante */}
-            {currentRole === 'reportante' && (
-              <ReportanteDashboard
+            {/* 1. Vista de Formulario de Nuevo Reporte */}
+            {currentTab === 'new' && (
+              <ReportForm
+                onAddIncident={handleAddIncident}
+                onCancel={() => setCurrentTab('role_dashboard')}
+                currentRoleUser={activeUser}
+              />
+            )}
+
+            {/* 2. Vista de Explorador General de Incidencias */}
+            {currentTab === 'list' && (
+              <IncidentList
                 incidents={incidents}
+                onSelectIncident={setSelectedIncident}
                 onNewIncident={() => setCurrentTab('new')}
-                onSelectIncident={setSelectedIncident}
-                currentUser={currentRoleUser}
+                currentRole={currentRole}
+                currentRoleUser={activeUser}
               />
             )}
 
-            {/* Interfaz Rol 2: Técnico Operativo */}
-            {currentRole === 'tecnico' && (
-              <TecnicoDashboard
+            {/* 3. Vista General de Estadísticas */}
+            {currentTab === 'stats' && (
+              <AnalyticsDashboard
                 incidents={incidents}
-                onSelectIncident={setSelectedIncident}
-                onNewIncident={() => setCurrentTab('new')}
-                currentUser={currentRoleUser}
               />
             )}
 
-            {/* Interfaz Rol 3: Coordinador */}
-            {currentRole === 'coordinador' && (
-              <CoordinadorDashboard
-                incidents={incidents}
-                onSelectIncident={setSelectedIncident}
-                onUpdateIncident={handleUpdateIncident}
-                currentUser={currentRoleUser}
-              />
-            )}
-
-            {/* Interfaz Rol 4: Directivo */}
-            {currentRole === 'directivo' && (
-              <DirectivoDashboard
-                incidents={incidents}
-                currentUser={currentRoleUser}
-              />
-            )}
-
-            {/* Interfaz Rol 5: Administrador del Sistema */}
-            {currentRole === 'admin' && (
-              <AdminDashboard
+            {/* 4. Vista General de Gestión de Usuarios */}
+            {currentTab === 'users' && (
+              <UserManagement
                 users={users}
                 onUpdateUsers={setUsers}
-                currentUser={currentRoleUser}
               />
             )}
 
-            {/* Interfaz Rol 6: Super Admin */}
-            {currentRole === 'superadmin' && (
-              <SuperAdminDashboard
-                incidents={incidents}
-                users={users}
-              />
+            {/* 5. INTERFACES ESPECIALIZADAS POR ROL */}
+            {currentTab === 'role_dashboard' && (
+              <>
+                {/* Interfaz Rol 1: Reportante */}
+                {currentRole === 'reportante' && (
+                  <ReportanteDashboard
+                    incidents={incidents}
+                    onNewIncident={() => setCurrentTab('new')}
+                    onSelectIncident={setSelectedIncident}
+                    currentUser={activeUser}
+                  />
+                )}
+
+                {/* Interfaz Rol 2: Técnico Operativo */}
+                {currentRole === 'tecnico' && (
+                  <TecnicoDashboard
+                    incidents={incidents}
+                    onSelectIncident={setSelectedIncident}
+                    onNewIncident={() => setCurrentTab('new')}
+                    currentUser={activeUser}
+                  />
+                )}
+
+                {/* Interfaz Rol 3: Coordinador */}
+                {currentRole === 'coordinador' && (
+                  <CoordinadorDashboard
+                    incidents={incidents}
+                    onSelectIncident={setSelectedIncident}
+                    onUpdateIncident={handleUpdateIncident}
+                    currentUser={activeUser}
+                  />
+                )}
+
+                {/* Interfaz Rol 4: Directivo */}
+                {currentRole === 'directivo' && (
+                  <DirectivoDashboard
+                    incidents={incidents}
+                    currentUser={activeUser}
+                  />
+                )}
+
+                {/* Interfaz Rol 5: Administrador del Sistema */}
+                {currentRole === 'admin' && (
+                  <AdminDashboard
+                    users={users}
+                    onUpdateUsers={setUsers}
+                    currentUser={activeUser}
+                  />
+                )}
+
+                {/* Interfaz Rol 6: Super Admin */}
+                {currentRole === 'superadmin' && (
+                  <SuperAdminDashboard
+                    incidents={incidents}
+                    users={users}
+                  />
+                )}
+              </>
             )}
           </>
         )}
 
       </main>
 
-      {/* Modal de Detalle de Incidencia / Expediente */}
-      {selectedIncident && (
+      {/* Modal de Detalle de Incidencia / Expediente (Solo accesible si hay sesión) */}
+      {activeUser && selectedIncident && (
         <IncidentDetailModal
           incident={selectedIncident}
           onClose={() => setSelectedIncident(null)}
           onUpdateIncident={handleUpdateIncident}
           currentRole={currentRole}
-          currentRoleUser={currentRoleUser}
+          currentRoleUser={activeUser}
         />
       )}
 
-      {/* Barra de Navegación Móvil Inferior */}
-      <MobileBottomNav
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
-        currentRole={currentRole}
-        incidentsCount={incidents.length}
-      />
+      {/* Barra de Navegación Móvil Inferior (Solo visible si hay sesión) */}
+      {activeUser && (
+        <MobileBottomNav
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+          currentRole={currentRole}
+          incidentsCount={incidents.length}
+        />
+      )}
 
       {/* Footer Informativo de la Arquitectura */}
-      <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-xs text-slate-500 dark:text-slate-400 transition-colors hidden md:block">
+      <footer className="border-t border-slate-200 dark:border-[#2A3447] bg-white dark:bg-[#161D2B] py-6 text-xs text-slate-500 dark:text-[#94A3B8] transition-colors hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800 dark:text-slate-200">UTM Desk</span>
+            <span className="font-bold text-slate-800 dark:text-[#F1F5F9]">UTM Desk</span>
             <span>•</span>
             <span>Universidad Tecnológica Metropolitana (Mérida)</span>
           </div>
 
           <div className="flex items-center gap-4 text-[11px]">
             <span className="flex items-center gap-1">
-              <Database className="w-3.5 h-3.5 text-emerald-500" /> MongoDB Atlas M0
+              <Database className="w-3.5 h-3.5 text-[#10B981]" /> MongoDB Atlas M0
             </span>
             <span className="flex items-center gap-1">
               <Server className="w-3.5 h-3.5 text-rose-500" /> Upstash Redis

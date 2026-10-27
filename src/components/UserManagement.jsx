@@ -58,6 +58,7 @@ export default function UserManagement({ users, onUpdateUsers }) {
       matricula_o_empleado: matricula,
       nombre_completo: nombreCompleto,
       correo_institucional: correo,
+      password: 'utm2026',
       rol,
       area_asignada: area,
       activo: true,

@@ -74,17 +74,17 @@ export default function IncidentList({
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
       
       {/* Banner Superior de Bienvenida con Propósito Claro */}
-      <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-800 rounded-3xl p-6 sm:p-10 text-white shadow-xl shadow-blue-900/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#1E293B] via-[#161D2B] to-[#1E1B4B] rounded-3xl p-6 sm:p-10 text-[#F1F5F9] shadow-xl border border-[#2A3447] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-3">
-            <span>Mesa de Ayuda Universitaria</span>
-            <span>•</span>
-            <span className="text-blue-200">Campus Mérida</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2A3447]/70 border border-[#2A3447] backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-3">
+            <span className="text-[#F1F5F9]">Mesa de Ayuda Universitaria</span>
+            <span className="text-[#94A3B8]">•</span>
+            <span className="text-[#818CF8]">Campus Mérida</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-[#F1F5F9]">
             Gestión Centralizada de Incidencias
           </h1>
-          <p className="text-blue-100/90 text-sm sm:text-base mt-2 leading-relaxed">
+          <p className="text-[#94A3B8] text-sm sm:text-base mt-2 leading-relaxed">
             Reporta problemas de cómputo, infraestructura física o servicios académicos y monitorea su resolución en tiempo real con folio único.
           </p>
         </div>
@@ -92,9 +92,9 @@ export default function IncidentList({
         {roleConfig.canCreate && (
           <button
             onClick={onNewIncident}
-            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white text-blue-700 hover:bg-blue-50 font-black text-sm sm:text-base shadow-lg shadow-black/15 transition-all flex items-center justify-center gap-2.5 active:scale-95 flex-shrink-0"
+            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-[#F1F5F9] font-black text-sm sm:text-base shadow-lg shadow-[#4F46E5]/25 border border-[#6366F1]/30 transition-all flex items-center justify-center gap-2.5 active:scale-95 flex-shrink-0 cursor-pointer"
           >
-            <PlusCircle className="w-5 h-5 text-blue-600" />
+            <PlusCircle className="w-5 h-5 text-[#F1F5F9]" />
             <span>+ Levantar Reporte</span>
           </button>
         )}
