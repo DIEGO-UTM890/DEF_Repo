@@ -121,7 +121,7 @@ export default function IncidentDetailModal({
         <div className="p-6 sm:p-8 border-b border-slate-100 dark:border-slate-800 flex items-start justify-between bg-slate-50/50 dark:bg-slate-800/30">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="font-mono text-base font-black px-3 py-1 rounded-xl bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+              <span className="font-mono text-base font-black px-3 py-1 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/20">
                 {incident.folio}
               </span>
               <span className={`text-xs font-bold px-3 py-1 rounded-xl border ${categoriaInfo.badgeBg}`}>
@@ -151,9 +151,9 @@ export default function IncidentDetailModal({
         <div className="px-6 border-b border-slate-100 dark:border-slate-800 flex gap-4 bg-white dark:bg-slate-900">
           <button
             onClick={() => setActiveTab('expediente')}
-            className={`py-3.5 text-sm font-bold border-b-2 flex items-center gap-2 transition-colors ${
+            className={`py-3.5 text-sm font-bold border-b-2 flex items-center gap-2 transition-colors cursor-pointer ${
               activeTab === 'expediente'
-                ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                ? 'border-amber-500 text-amber-500 dark:text-amber-400'
                 : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
@@ -161,9 +161,9 @@ export default function IncidentDetailModal({
           </button>
           <button
             onClick={() => setActiveTab('bitacora')}
-            className={`py-3.5 text-sm font-bold border-b-2 flex items-center gap-2 transition-colors ${
+            className={`py-3.5 text-sm font-bold border-b-2 flex items-center gap-2 transition-colors cursor-pointer ${
               activeTab === 'bitacora'
-                ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                ? 'border-amber-500 text-amber-500 dark:text-amber-400'
                 : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
@@ -172,9 +172,9 @@ export default function IncidentDetailModal({
           {canUpdate && (
             <button
               onClick={() => setActiveTab('acciones')}
-              className={`py-3.5 text-sm font-bold border-b-2 flex items-center gap-2 transition-colors ${
+              className={`py-3.5 text-sm font-bold border-b-2 flex items-center gap-2 transition-colors cursor-pointer ${
                 activeTab === 'acciones'
-                  ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                  ? 'border-amber-500 text-amber-500 dark:text-amber-400'
                   : 'border-transparent text-slate-500 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
@@ -206,7 +206,7 @@ export default function IncidentDetailModal({
                 {/* Ubicación */}
                 <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    <Building2 className="w-4 h-4 text-amber-500" />
                     Ubicación en Campus
                   </div>
                   <div className="text-sm font-bold text-slate-900 dark:text-white">
@@ -220,7 +220,7 @@ export default function IncidentDetailModal({
                 {/* Reportante */}
                 <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
-                    <User className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                    <User className="w-4 h-4 text-amber-500" />
                     Reportante Verificado
                   </div>
                   <div className="text-sm font-bold text-slate-900 dark:text-white">
@@ -234,9 +234,9 @@ export default function IncidentDetailModal({
               </div>
 
               {/* Subdocumento Polimórfico detalle_especifico */}
-              <div className="p-5 rounded-2xl bg-blue-50/40 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/40">
-                <div className="flex items-center justify-between mb-3 border-b border-blue-100 dark:border-blue-900/40 pb-2">
-                  <span className="text-xs font-black uppercase tracking-wider text-blue-700 dark:text-blue-400">
+              <div className="p-5 rounded-2xl bg-amber-500/5 border border-amber-500/20">
+                <div className="flex items-center justify-between mb-3 border-b border-amber-500/20 pb-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-amber-300">
                     Detalle Específico ({categoriaInfo.label})
                   </span>
                   <span className="text-[11px] font-mono text-slate-400">
@@ -327,7 +327,7 @@ export default function IncidentDetailModal({
               <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    <Tag className="w-4 h-4 text-blue-600" />
+                    <Tag className="w-4 h-4 text-amber-500" />
                     Etiquetas de Clasificación (RF-05: Sin Repetidos)
                   </div>
                 </div>
@@ -362,7 +362,7 @@ export default function IncidentDetailModal({
                       />
                       <button
                         type="submit"
-                        className="p-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                        className="p-1 rounded-lg bg-amber-600 text-white hover:bg-amber-500 cursor-pointer"
                         title="Agregar ($addToSet)"
                       >
                         <Plus className="w-3.5 h-3.5" />
@@ -392,7 +392,7 @@ export default function IncidentDetailModal({
                               className="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700"
                             />
                           ) : (
-                            <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950 flex items-center justify-center text-blue-600">
+                            <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400">
                               <FileText className="w-6 h-6" />
                             </div>
                           )}
@@ -410,7 +410,7 @@ export default function IncidentDetailModal({
                           href={ev.url_storage}
                           target="_blank"
                           rel="noreferrer"
-                          className="p-2 rounded-xl text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 transition-colors"
+                          className="p-2 rounded-xl text-amber-400 hover:bg-amber-500/10 transition-colors"
                           title="Abrir evidencia"
                         >
                           <ExternalLink className="w-4 h-4" />
@@ -441,7 +441,7 @@ export default function IncidentDetailModal({
               <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-800">
                 {(incident.historial_seguimiento || []).map((item, idx) => (
                   <div key={idx} className="relative">
-                    <div className="absolute -left-6 top-1 w-5 h-5 rounded-full bg-blue-600 border-4 border-white dark:border-slate-900"></div>
+                    <div className="absolute -left-6 top-1 w-5 h-5 rounded-full bg-amber-500 border-4 border-white dark:border-slate-900"></div>
                     <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
                       <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
                         <div className="flex items-center gap-2">
@@ -462,7 +462,7 @@ export default function IncidentDetailModal({
                       <div className="mt-2 pt-2 border-t border-slate-200/50 dark:border-slate-700/50 flex items-center justify-between text-xs text-slate-500">
                         <span>Nuevo estatus: <strong className="text-slate-800 dark:text-slate-200">{item.estado_nuevo}</strong></span>
                         {item.horas_agregadas > 0 && (
-                          <span className="font-semibold text-blue-600 dark:text-blue-400">
+                          <span className="font-semibold text-amber-400">
                             +{item.horas_agregadas} hrs añadidas
                           </span>
                         )}
@@ -477,7 +477,7 @@ export default function IncidentDetailModal({
           {/* TAB 3: ACCIONES OPERATIVAS DEL TÉCNICO / COORDINADOR (RF-04) */}
           {activeTab === 'acciones' && canUpdate && (
             <form onSubmit={handleGuardarAvance} className="space-y-6">
-              <div className="p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 text-xs text-amber-800 dark:text-amber-300">
+              <div className="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300">
                 <strong>Operación Atómica (RF-04):</strong> Al guardar, se actualizarán en un solo paso: el estado del reporte, se insertará la nueva nota en el historial y se incrementarán de forma acumulada las horas invertidas.
               </div>
 
@@ -532,7 +532,7 @@ export default function IncidentDetailModal({
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="submit"
-                  className="px-6 py-3 rounded-2xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/25 flex items-center gap-2"
+                  className="px-6 py-3 rounded-2xl font-bold text-sm bg-amber-600 hover:bg-amber-500 text-white shadow-lg shadow-amber-600/25 flex items-center gap-2 cursor-pointer transition-all"
                 >
                   <Send className="w-4 h-4" /> Registrar Avance Atómico
                 </button>

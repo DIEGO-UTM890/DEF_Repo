@@ -39,33 +39,33 @@ export default function TecnicoDashboard({
     <div className="space-y-8">
       
       {/* Banner de Cabecera Técnica */}
-      <div className="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 border border-blue-900/40 rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#121316] via-[#1C1D22] to-[#2C2D35]/40 border border-slate-700/60 rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-2 border border-blue-500/30">
-            <Wrench className="w-3.5 h-3.5 text-blue-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-semibold uppercase tracking-wider mb-2 border border-amber-500/20">
+            <Wrench className="w-3.5 h-3.5 text-amber-400" />
             <span>Consola de Trabajo del Técnico Operativo</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
             Técnico: {currentUser?.nombre_completo || 'Carlos Méndez Pech'}
           </h1>
-          <p className="text-slate-300 text-sm mt-1 max-w-xl">
-            Área Asignada: <strong className="text-blue-400 capitalize">{currentUser?.area_asignada?.replace('_', ' ') || 'Cómputo y Redes'}</strong> • Registro de bitácoras, insumos y control de horas de mantenimiento.
+          <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
+            Área Asignada: <strong className="text-amber-400 capitalize">{currentUser?.area_asignada?.replace('_', ' ') || 'Cómputo y Redes'}</strong> • Registro de bitácoras, insumos y control de horas de mantenimiento.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-          <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 text-center">
-            <span className="text-[11px] uppercase tracking-wider font-bold text-slate-300 block">
+          <div className="p-4 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-center">
+            <span className="text-[11px] uppercase tracking-wider font-bold text-zinc-400 block">
               Horas Acumuladas
             </span>
-            <div className="text-3xl font-black text-blue-400 mt-0.5">
-              {totalHorasTecnico} <span className="text-sm text-slate-300">hrs</span>
+            <div className="text-3xl font-black text-amber-400 mt-0.5">
+              {totalHorasTecnico} <span className="text-sm text-zinc-400">hrs</span>
             </div>
           </div>
 
           <button
             onClick={onNewIncident}
-            className="px-5 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 active:scale-95 transition-all"
+            className="px-5 py-4 rounded-2xl bg-amber-600 hover:bg-amber-500 text-zinc-950 font-bold text-sm shadow-lg shadow-amber-600/25 flex items-center justify-center gap-2 active:scale-95 transition-all"
           >
             <PlusCircle className="w-5 h-5" />
             <span>Levantar Ticket Técnico</span>

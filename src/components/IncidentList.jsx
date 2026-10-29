@@ -74,17 +74,17 @@ export default function IncidentList({
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
       
       {/* Banner Superior de Bienvenida con Propósito Claro */}
-      <div className="bg-gradient-to-r from-[#1E293B] via-[#161D2B] to-[#1E1B4B] rounded-3xl p-6 sm:p-10 text-[#F1F5F9] shadow-xl border border-[#2A3447] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#121316] via-[#1C1D22] to-[#2C2D35]/40 rounded-3xl p-6 sm:p-10 text-[#F0F1F5] shadow-xl border border-[#2C2D35] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2A3447]/70 border border-[#2A3447] backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-3">
-            <span className="text-[#F1F5F9]">Mesa de Ayuda Universitaria</span>
-            <span className="text-[#94A3B8]">•</span>
-            <span className="text-[#818CF8]">Campus Mérida</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-3">
+            <span className="text-[#F0F1F5]">Mesa de Ayuda Universitaria</span>
+            <span className="text-slate-500">•</span>
+            <span className="text-amber-400">Campus Mérida</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-[#F1F5F9]">
+          <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-[#F0F1F5]">
             Gestión Centralizada de Incidencias
           </h1>
-          <p className="text-[#94A3B8] text-sm sm:text-base mt-2 leading-relaxed">
+          <p className="text-slate-400 text-sm sm:text-base mt-2 leading-relaxed">
             Reporta problemas de cómputo, infraestructura física o servicios académicos y monitorea su resolución en tiempo real con folio único.
           </p>
         </div>
@@ -92,9 +92,9 @@ export default function IncidentList({
         {roleConfig.canCreate && (
           <button
             onClick={onNewIncident}
-            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] text-[#F1F5F9] font-black text-sm sm:text-base shadow-lg shadow-[#4F46E5]/25 border border-[#6366F1]/30 transition-all flex items-center justify-center gap-2.5 active:scale-95 flex-shrink-0 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-black text-sm sm:text-base shadow-lg shadow-amber-600/25 border border-amber-400/30 transition-all flex items-center justify-center gap-2.5 active:scale-95 flex-shrink-0 cursor-pointer"
           >
-            <PlusCircle className="w-5 h-5 text-[#F1F5F9]" />
+            <PlusCircle className="w-5 h-5 text-white" />
             <span>+ Levantar Reporte</span>
           </button>
         )}
@@ -111,7 +111,7 @@ export default function IncidentList({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Buscar por folio (INC-2026-...), palabra clave, falla, etiqueta o edificio..."
-            className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-medium"
+            className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm font-medium"
           />
         </div>
 
@@ -125,7 +125,7 @@ export default function IncidentList({
               onClick={() => setSelectedCategory('todas')}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 selectedCategory === 'todas'
-                  ? 'bg-blue-600 text-white shadow-sm'
+                  ? 'bg-amber-600 text-white shadow-sm shadow-amber-600/20'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
@@ -137,7 +137,7 @@ export default function IncidentList({
                 onClick={() => setSelectedCategory(key)}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                   selectedCategory === key
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-amber-600 text-white shadow-sm shadow-amber-600/20'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
@@ -200,13 +200,13 @@ export default function IncidentList({
               <div
                 key={inc._id}
                 onClick={() => onSelectIncident(inc)}
-                className="group p-5 sm:p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700/60 transition-all cursor-pointer flex flex-col justify-between"
+                className="group p-5 sm:p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-amber-500/40 dark:hover:border-amber-500/40 transition-all cursor-pointer flex flex-col justify-between"
               >
                 <div>
                   
                   {/* Encabezado de la Tarjeta */}
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="font-mono text-xs font-black tracking-wider px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700">
+                    <span className="font-mono text-xs font-black tracking-wider px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-amber-400 border border-slate-200 dark:border-slate-700">
                       {inc.folio}
                     </span>
                     <div className="flex items-center gap-1.5">
@@ -220,7 +220,7 @@ export default function IncidentList({
                   </div>
 
                   {/* Título */}
-                  <h3 className="font-black text-slate-900 dark:text-white text-base sm:text-lg tracking-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1 mb-1.5">
+                  <h3 className="font-black text-slate-900 dark:text-white text-base sm:text-lg tracking-tight group-hover:text-amber-400 dark:group-hover:text-amber-400 transition-colors line-clamp-1 mb-1.5">
                     {inc.titulo}
                   </h3>
 
@@ -232,7 +232,7 @@ export default function IncidentList({
                   {/* Metadatos y Ubicación */}
                   <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400 mb-3">
                     <span className="flex items-center gap-1 font-semibold text-slate-700 dark:text-slate-300">
-                      <Building2 className="w-3.5 h-3.5 text-blue-500" />
+                      <Building2 className="w-3.5 h-3.5 text-amber-400" />
                       {inc.ubicacion?.edificio}
                     </span>
                     <span>•</span>
@@ -240,7 +240,7 @@ export default function IncidentList({
                     {inc.evidencias_adjuntas?.length > 0 && (
                       <>
                         <span>•</span>
-                        <span className="flex items-center gap-1 font-medium text-blue-600 dark:text-blue-400">
+                        <span className="flex items-center gap-1 font-medium text-amber-400">
                           <Paperclip className="w-3.5 h-3.5" />
                           {inc.evidencias_adjuntas.length} adjunto(s)
                         </span>
@@ -268,7 +268,7 @@ export default function IncidentList({
                     <span>{inc.horas_invertidas || 0} hrs invertidas</span>
                   </div>
 
-                  <span className="font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                  <span className="font-bold text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                     Ver Expediente <ChevronRight className="w-4 h-4" />
                   </span>
                 </div>

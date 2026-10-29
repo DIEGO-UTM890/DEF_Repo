@@ -17,6 +17,7 @@ import AdminDashboard from './components/views/AdminDashboard';
 import SuperAdminDashboard from './components/views/SuperAdminDashboard';
 
 import { INITIAL_INCIDENTS, INITIAL_USERS, ROLES_CONFIG } from './data/mockData';
+import { logout as authLogout } from './services/auth.service';
 import { Database, Server, HardDrive } from 'lucide-react';
 
 export default function App() {
@@ -135,10 +136,23 @@ export default function App() {
 
   // Cerrar sesión y regresar al portal de acceso por roles
   const handleLogout = () => {
+    // Limpiar JWT del localStorage
+    localStorage.removeItem('utmdesk_jwt');
     setActiveUser(null);
     setCurrentTab('role_dashboard');
     setSelectedIncident(null);
   };
+
+  // Escuchar el evento global de logout forzado por JWT expirado (disparado desde api.js)
+  useEffect(() => {
+    const onForceLogout = () => {
+      setActiveUser(null);
+      setCurrentTab('role_dashboard');
+      setSelectedIncident(null);
+    };
+    window.addEventListener('utmdesk:logout', onForceLogout);
+    return () => window.removeEventListener('utmdesk:logout', onForceLogout);
+  }, []);
 
   // Agregar nuevo reporte
   const handleAddIncident = (newIncident) => {
@@ -152,7 +166,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0B0F17] text-slate-900 dark:text-[#F1F5F9] flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-[#121316] text-[#F0F1F5] flex flex-col font-sans transition-colors duration-200 selection:bg-amber-500/25 selection:text-white">
       
       {/* Barra de Navegación Principal */}
       <Navbar
@@ -166,7 +180,7 @@ export default function App() {
       />
 
       {/* Contenido Principal */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-20 md:pb-12">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20 md:pb-12">
         
         {/* ============================================================== */}
         {/* CASO 1: SIN SESIÓN ACTIVA (BLOQUEO TOTAL) */}
@@ -218,6 +232,7 @@ export default function App() {
               <UserManagement
                 users={users}
                 onUpdateUsers={setUsers}
+                currentUser={activeUser}
               />
             )}
 
@@ -307,23 +322,23 @@ export default function App() {
       )}
 
       {/* Footer Informativo de la Arquitectura */}
-      <footer className="border-t border-slate-200 dark:border-[#2A3447] bg-white dark:bg-[#161D2B] py-6 text-xs text-slate-500 dark:text-[#94A3B8] transition-colors hidden md:block">
+      <footer className="border-t border-slate-800/80 bg-[#121316] py-6 text-xs text-slate-400 transition-colors hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800 dark:text-[#F1F5F9]">UTM Desk</span>
+            <span className="font-bold text-slate-200">UTM Desk</span>
             <span>•</span>
             <span>Universidad Tecnológica Metropolitana (Mérida)</span>
           </div>
 
-          <div className="flex items-center gap-4 text-[11px]">
+          <div className="flex items-center gap-4 text-[11px] text-slate-400">
             <span className="flex items-center gap-1">
-              <Database className="w-3.5 h-3.5 text-[#10B981]" /> MongoDB Atlas M0
+              <Database className="w-3.5 h-3.5 text-emerald-400" /> MongoDB Atlas M0
             </span>
             <span className="flex items-center gap-1">
-              <Server className="w-3.5 h-3.5 text-rose-500" /> Upstash Redis
+              <Server className="w-3.5 h-3.5 text-amber-400" /> Upstash Redis
             </span>
             <span className="flex items-center gap-1">
-              <HardDrive className="w-3.5 h-3.5 text-blue-500" /> Supabase Storage
+              <HardDrive className="w-3.5 h-3.5 text-slate-300" /> Supabase Storage
             </span>
           </div>
         </div>
