@@ -181,25 +181,23 @@ async function aprobarSolicitud(req, res, next) {
     }
 
     // Crear la cuenta activa en la BD
+    // IMPORTANTE: Solo incluir los campos permitidos por el validador $jsonSchema
+    // de la colección 'usuarios' (additionalProperties: false)
     const nuevaCuenta = {
-      nombre: solicitud.nombre,
+      matricula_o_empleado: solicitud.matricula_o_empleado || `USR-${Date.now().toString(36).toUpperCase()}`,
       nombre_completo: solicitud.nombre,
-      correo: solicitud.correo,
       correo_institucional: solicitud.correo,
       password_hash: solicitud.password_hash,
       rol: solicitud.rol_solicitado,
-      area_asignada: solicitud.area_asignada,
-      matricula_o_empleado: solicitud.matricula_o_empleado || `USR-${Date.now().toString(36).toUpperCase()}`,
+      area_asignada: solicitud.area_asignada || 'general',
       activo: true,
-      creado_en: new Date().toISOString(),
       fecha_registro: new Date().toISOString(),
-      aprobado_por: revisor?.correo || revisor?.email || 'admin',
     };
 
     if (supabase) {
       await supabase.from(TABLAS.USUARIO).insert([{
-        nombre: nuevaCuenta.nombre,
-        correo: nuevaCuenta.correo,
+        nombre: nuevaCuenta.nombre_completo,
+        correo: nuevaCuenta.correo_institucional,
         password_hash: nuevaCuenta.password_hash,
         rol: nuevaCuenta.rol,
         activo: true,

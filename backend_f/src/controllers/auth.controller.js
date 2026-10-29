@@ -227,7 +227,8 @@ async function registro(req, res, next) {
     const supabase = getSupabaseClient();
     const db = getDb();
 
-    const nuevoUsuario = {
+    // Documento para Supabase (esquema diferente)
+    const nuevoUsuarioSupabase = {
       nombre,
       correo: correo.toLowerCase(),
       password_hash: passwordHash,
@@ -237,10 +238,22 @@ async function registro(req, res, next) {
       creado_en: new Date().toISOString(),
     };
 
+    // Documento para MongoDB (debe cumplir con el validador $jsonSchema estricto)
+    const nuevoUsuarioMongo = {
+      matricula_o_empleado: `USR-${Date.now().toString(36).toUpperCase()}`,
+      nombre_completo: nombre,
+      correo_institucional: correo.toLowerCase(),
+      password_hash: passwordHash,
+      rol: rol || 'reportante',
+      area_asignada: 'general',
+      activo: true,
+      fecha_registro: new Date().toISOString(),
+    };
+
     if (supabase) {
       const { data, error } = await supabase
         .from(TABLAS.USUARIO)
-        .insert([nuevoUsuario])
+        .insert([nuevoUsuarioSupabase])
         .select('id, nombre, correo, rol, creado_en')
         .single();
 
@@ -265,7 +278,12 @@ async function registro(req, res, next) {
 
     if (db) {
       const col = db.collection('usuarios');
-      const existe = await col.findOne({ correo: nuevoUsuario.correo });
+      const existe = await col.findOne({
+        $or: [
+          { correo_institucional: nuevoUsuarioMongo.correo_institucional },
+          { correo: nuevoUsuarioMongo.correo_institucional },
+        ],
+      });
       if (existe) {
         return res.status(409).json({
           ok: false,
@@ -273,12 +291,12 @@ async function registro(req, res, next) {
         });
       }
 
-      const result = await col.insertOne(nuevoUsuario);
+      const result = await col.insertOne(nuevoUsuarioMongo);
       const userClean = {
         id: result.insertedId,
-        nombre: nuevoUsuario.nombre,
-        correo: nuevoUsuario.correo,
-        rol: nuevoUsuario.rol,
+        nombre: nuevoUsuarioMongo.nombre_completo,
+        correo: nuevoUsuarioMongo.correo_institucional,
+        rol: nuevoUsuarioMongo.rol,
       };
 
       const token = generarToken(userClean);
@@ -293,9 +311,9 @@ async function registro(req, res, next) {
     // Fallback de demostración segura si no hay conexión a base de datos
     const demoUser = {
       id: 'usr_' + Date.now(),
-      nombre: nuevoUsuario.nombre,
-      correo: nuevoUsuario.correo,
-      rol: nuevoUsuario.rol,
+      nombre: nuevoUsuarioSupabase.nombre,
+      correo: nuevoUsuarioSupabase.correo,
+      rol: nuevoUsuarioSupabase.rol,
     };
     const token = generarToken(demoUser);
 

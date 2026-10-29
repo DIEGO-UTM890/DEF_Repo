@@ -6,6 +6,7 @@ const ROLES_SOLICITABLES = [
   'coordinador',
   'directivo',
   'admin',
+  'superadmin',
 ];
 
 const AREAS_VALIDAS = [

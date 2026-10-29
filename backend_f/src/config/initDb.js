@@ -44,8 +44,8 @@ const usuariosValidator = {
         description: 'Hash de contraseña encriptado con bcrypt (Obligatorio)',
       },
       rol: {
-        enum: ['reportante', 'tecnico', 'coordinador', 'admin'],
-        description: 'Rol permitido: únicamente reportante, tecnico, coordinador o admin',
+        enum: ['reportante', 'tecnico', 'coordinador', 'directivo', 'admin', 'superadmin'],
+        description: 'Rol permitido: reportante, tecnico, coordinador, directivo, admin o superadmin',
       },
       area_asignada: {
         enum: ['computo_redes', 'infraestructura', 'academico', 'general'],
