@@ -5,6 +5,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 
 // Middlewares perimetrales y rutas
+const { getDb } = require('./config/db');
 const errorMiddleware = require('./middlewares/error.middleware');
 const authRoutes = require('./routes/auth.routes');
 const usuariosRoutes = require('./routes/usuarios.routes');
@@ -77,10 +78,17 @@ app.use(globalRateLimiter);
 
 // Prueba 1: Endpoint de Salud institucional y verificación de cabeceras seguras
 app.get('/api/health', (req, res) => {
+  const db = getDb();
   res.status(200).json({
     ok: true,
     mensaje: 'Servicio UTM Desk operativo',
     entorno: process.env.NODE_ENV || 'development',
+    base_de_datos: {
+      conectada: !!db,
+      motor: 'MongoDB Atlas',
+      nombre: process.env.DB_NAME || 'utm_desk_db',
+      estado: db ? 'OPERATIVA' : 'MODO_DIFERIDO',
+    },
     timestamp: new Date().toISOString(),
   });
 });
