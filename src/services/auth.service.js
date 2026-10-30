@@ -29,22 +29,29 @@ function normalizarUsuario(backendUser) {
 
 // ─── Verificar si el backend está disponible ─────────────────────────────────
 
-let _backendDisponible = null; // null = no comprobado, true/false = resultado
+let _backendDisponible = null;
+let _lastCheckTime = 0;
 
-export async function verificarBackend() {
-  if (_backendDisponible !== null) return _backendDisponible;
+export async function verificarBackend(force = false) {
+  const now = Date.now();
+  // Revalidar cada 3 segundos como máximo para no saturar, o si se fuerza la llamada
+  if (!force && _backendDisponible !== null && (now - _lastCheckTime < 3000)) {
+    return _backendDisponible;
+  }
   try {
-    const res = await fetch('/api/health', { signal: AbortSignal.timeout(3000) });
+    const res = await fetch('/api/health', { signal: AbortSignal.timeout(2000) });
     _backendDisponible = res.ok;
   } catch {
     _backendDisponible = false;
   }
+  _lastCheckTime = now;
   return _backendDisponible;
 }
 
 /** Resetea la caché para volver a comprobar en el próximo intento */
 export function resetearEstadoBackend() {
   _backendDisponible = null;
+  _lastCheckTime = 0;
 }
 
 // ─── Login ───────────────────────────────────────────────────────────────────

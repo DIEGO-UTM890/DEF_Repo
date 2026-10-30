@@ -77,6 +77,17 @@ export const INITIAL_USERS = [
     area_asignada: "general",
     activo: true,
     fecha_registro: "2026-07-01T08:00:00.000Z"
+  },
+  {
+    _id: "6ae4d0525591169843d4c830",
+    matricula_o_empleado: "SUPER-2026-001",
+    nombre_completo: "Lizandro Reyes",
+    correo_institucional: "lizandro.reyes@utmetropolitana.edu.mx",
+    password: "superadmin123",
+    rol: "superadmin",
+    area_asignada: "general",
+    activo: true,
+    fecha_registro: "2026-10-30T10:00:00.000Z"
   }
 ];
 

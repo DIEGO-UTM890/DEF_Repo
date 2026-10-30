@@ -291,6 +291,8 @@ export default function App() {
                   <SuperAdminDashboard
                     incidents={incidents}
                     users={users}
+                    onUpdateUsers={setUsers}
+                    currentUser={activeUser}
                   />
                 )}
               </>

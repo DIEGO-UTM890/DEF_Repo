@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import UserManagement from '../UserManagement';
 import { 
   Zap, 
   Database, 
@@ -12,7 +13,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 
-export default function SuperAdminDashboard({ incidents, users }) {
+export default function SuperAdminDashboard({ incidents, users, onUpdateUsers, currentUser }) {
   const [runningTTLCheck, setRunningTTLCheck] = useState(false);
   const [ttlResult, setTtlResult] = useState(null);
 
@@ -170,6 +171,11 @@ export default function SuperAdminDashboard({ incidents, users }) {
           </div>
         </div>
       )}
+
+      {/* Módulo Integrado de Control de Cuentas y Solicitudes Institucionales (RF-08) */}
+      <div className="pt-6 border-t border-slate-800">
+        <UserManagement users={users} onUpdateUsers={onUpdateUsers} currentUser={currentUser} />
+      </div>
 
     </div>
   );

@@ -17,7 +17,8 @@ import {
   UserX,
   Sparkles,
   ArrowRight,
-  ShieldAlert
+  ShieldAlert,
+  RefreshCw
 } from 'lucide-react';
 import { ROLES_CONFIG } from '../data/mockData';
 import solicitudesService from '../services/solicitudes.service';
@@ -33,6 +34,7 @@ export default function UserManagement({ users, onUpdateUsers, currentUser }) {
   const [filtroEstadoSol, setFiltroEstadoSol] = useState('pendiente'); // 'pendiente' | 'todas' | 'aprobada' | 'rechazada'
   const [actionNotice, setActionNotice] = useState(null); // { type: 'success' | 'error', text }
   const [processingId, setProcessingId] = useState(null);
+  const [cargandoSol, setCargandoSol] = useState(false);
 
   // Formulario nuevo usuario manual
   const [matricula, setMatricula] = useState('');
@@ -41,13 +43,16 @@ export default function UserManagement({ users, onUpdateUsers, currentUser }) {
   const [rol, setRol] = useState('reportante');
   const [area, setArea] = useState('computo_redes');
 
-  // Cargar solicitudes de registro
+  // Cargar solicitudes de registro (re-consulta la API y sincroniza)
   const cargarSolicitudes = async () => {
+    setCargandoSol(true);
     try {
       const data = await solicitudesService.listarSolicitudes('todas');
       setSolicitudes(data || []);
     } catch (err) {
       console.error('Error al cargar solicitudes:', err);
+    } finally {
+      setCargandoSol(false);
     }
   };
 
@@ -271,7 +276,10 @@ export default function UserManagement({ users, onUpdateUsers, currentUser }) {
           </button>
 
           <button
-            onClick={() => setActiveTab('solicitudes')}
+            onClick={() => {
+              setActiveTab('solicitudes');
+              cargarSolicitudes();
+            }}
             className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer relative ${
               activeTab === 'solicitudes'
                 ? 'bg-amber-600 text-white shadow-md shadow-amber-600/20'
@@ -292,9 +300,9 @@ export default function UserManagement({ users, onUpdateUsers, currentUser }) {
           </button>
         </div>
 
-        {/* Filtros de Solicitudes si la pestaña está activa */}
+        {/* Filtros de Solicitudes y Botón de Recarga si la pestaña está activa */}
         {activeTab === 'solicitudes' && (
-          <div className="flex items-center gap-1.5 text-xs font-semibold">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
             <span className="text-slate-400 text-[11px] uppercase mr-1">Filtrar:</span>
             {['pendiente', 'todas', 'aprobada', 'rechazada'].map(estadoKey => (
               <button
@@ -309,6 +317,16 @@ export default function UserManagement({ users, onUpdateUsers, currentUser }) {
                 {estadoKey}
               </button>
             ))}
+
+            <button
+              onClick={cargarSolicitudes}
+              disabled={cargandoSol}
+              title="Actualizar bandeja de solicitudes en tiempo real"
+              className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 flex items-center gap-1.5 transition-all cursor-pointer ml-1"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${cargandoSol ? 'animate-spin' : ''}`} />
+              <span className="hidden sm:inline">Actualizar</span>
+            </button>
           </div>
         )}
       </div>

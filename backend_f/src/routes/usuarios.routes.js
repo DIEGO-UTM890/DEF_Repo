@@ -15,21 +15,21 @@ const router = Router();
 // Todas las rutas de administración de usuarios requieren autenticación
 router.use(authMiddleware);
 
-// Listar usuarios (solo coordinadores y administradores)
-router.get('/', roleMiddleware('admin', 'coordinador'), listarUsuarios);
+// Listar usuarios (coordinadores, administradores y superadmin)
+router.get('/', roleMiddleware('admin', 'coordinador', 'superadmin'), listarUsuarios);
 
 // Obtener detalle de usuario por ID
-router.get('/:id', roleMiddleware('admin', 'coordinador'), obtenerUsuarioPorId);
+router.get('/:id', roleMiddleware('admin', 'coordinador', 'superadmin'), obtenerUsuarioPorId);
 
 // Actualizar usuario
 router.put(
   '/:id',
-  roleMiddleware('admin'),
+  roleMiddleware('admin', 'superadmin'),
   validateMiddleware(actualizarUsuarioSchema),
   actualizarUsuario
 );
 
 // Desactivar usuario
-router.delete('/:id', roleMiddleware('admin'), eliminarUsuario);
+router.delete('/:id', roleMiddleware('admin', 'superadmin'), eliminarUsuario);
 
 module.exports = router;

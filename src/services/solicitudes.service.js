@@ -58,6 +58,29 @@ export async function crearSolicitud(datos) {
   if (backendVivo) {
     try {
       const res = await api.post('/solicitudes', datos);
+
+      // Sincronizar espejo en localStorage para disponibilidad inmediata en UI
+      try {
+        const locales = getLocalSolicitudes();
+        const nuevaEnLocal = {
+          _id: res.id || `SOL-${Date.now().toString(36).toUpperCase()}`,
+          nombre: datos.nombre.trim(),
+          correo: datos.correo.trim().toLowerCase(),
+          password: datos.password,
+          rol_solicitado: datos.rol_solicitado,
+          area_asignada: datos.area_asignada || 'general',
+          matricula_o_empleado: datos.matricula_o_empleado || `EMP-${Date.now().toString().slice(-4)}`,
+          motivo: datos.motivo || 'Registro solicitado desde el portal institucional.',
+          estado: 'pendiente',
+          fecha_solicitud: new Date().toISOString(),
+        };
+        const sinDuplicados = locales.filter(s => s.correo?.toLowerCase() !== nuevaEnLocal.correo);
+        sinDuplicados.unshift(nuevaEnLocal);
+        saveLocalSolicitudes(sinDuplicados);
+      } catch (mirrorErr) {
+        console.warn('Advertencia espejo local:', mirrorErr);
+      }
+
       return res;
     } catch (err) {
       throw err;
@@ -98,7 +121,7 @@ export async function crearSolicitud(datos) {
 }
 
 /**
- * Listar solicitudes con filtro de estado (admin / coordinador)
+ * Listar solicitudes con filtro de estado (admin / coordinador / superadmin)
  */
 export async function listarSolicitudes(estado = 'pendiente') {
   const backendVivo = await verificarBackend();
@@ -106,7 +129,11 @@ export async function listarSolicitudes(estado = 'pendiente') {
   if (backendVivo) {
     try {
       const res = await api.get(`/solicitudes?estado=${estado}`);
-      return res.data || [];
+      if (res && Array.isArray(res.data)) {
+        // Guardar snapshot actualizado en local storage
+        saveLocalSolicitudes(res.data);
+        return res.data;
+      }
     } catch (err) {
       console.warn('Fallo al obtener solicitudes del backend, usando almacenamiento local:', err.message);
     }
