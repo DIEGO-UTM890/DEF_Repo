@@ -49,13 +49,16 @@ export async function request(endpoint, options = {}) {
     headers,
   });
 
-  // Si la respuesta es 401, el token expiró o es inválido → limpiar sesión
+  // Si la respuesta es 401: solo disparar logout forzado si teníamos un token previo
+  // y no es la ruta de login
   if (response.status === 401) {
-    setToken(null);
-    localStorage.removeItem('utmdesk_active_user');
-    // Disparar evento para que App.jsx detecte el cierre de sesión forzado
-    window.dispatchEvent(new CustomEvent('utmdesk:logout'));
-    throw new Error('Sesión expirada. Por favor vuelve a iniciar sesión.');
+    if (token && endpoint !== '/auth/login') {
+      setToken(null);
+      localStorage.removeItem('utmdesk_active_user');
+      // Disparar evento para que App.jsx detecte el cierre de sesión forzado
+      window.dispatchEvent(new CustomEvent('utmdesk:logout'));
+    }
+    throw new Error('Sesión no autorizada o credenciales incorrectas.');
   }
 
   let data;

@@ -103,13 +103,24 @@ export default function RolePortalLogin({
     setError('');
   };
 
-  const handleDirectLogin = (user) => {
+  const handleDirectLogin = async (user) => {
     setError('');
     setIsSuccess(true);
     setSuccessMessage(`¡Acceso validado! Ingresando a la consola de ${roleInfo?.title || user.rol}...`);
-    setTimeout(() => {
-      onAuthenticate(user);
-    }, 350);
+    
+    try {
+      // Autenticar formalmente a través del servicio para emitir JWT válido
+      const passwordToUse = user.password || `${user.rol}123`;
+      const { usuario } = await authService.login(user.correo_institucional, passwordToUse, users);
+      setTimeout(() => {
+        onAuthenticate(usuario);
+      }, 300);
+    } catch {
+      // Fallback para modo offline o demo
+      setTimeout(() => {
+        onAuthenticate(user);
+      }, 300);
+    }
   };
 
   const handleSubmit = async (e) => {
