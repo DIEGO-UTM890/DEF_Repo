@@ -96,6 +96,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/incidencias', incidenciasRoutes);
 app.use('/api/estadisticas', estadisticasRoutes);
+app.use('/api/analitica', estadisticasRoutes);
 
 // Manejo de rutas inexistentes (404)
 app.use((req, res) => {

@@ -71,7 +71,7 @@ export default function AnalyticsDashboard({ incidents }) {
       
       {/* Header */}
       <div>
-        <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
+        <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">
           <BarChart3 className="w-4 h-4" />
           <span>Panel de Analítica Directiva (RF-07)</span>
         </div>
@@ -111,10 +111,10 @@ export default function AnalyticsDashboard({ incidents }) {
         </div>
 
         <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
-          <span className="text-xs font-bold uppercase text-blue-600 dark:text-blue-400 block mb-1">
+          <span className="text-xs font-bold uppercase text-amber-400 block mb-1">
             Horas Acumuladas
           </span>
-          <div className="text-3xl sm:text-4xl font-black text-blue-600 dark:text-blue-400">
+          <div className="text-3xl sm:text-4xl font-black text-amber-400">
             {stats.totalHoras} <span className="text-lg font-bold">hrs</span>
           </div>
           <span className="text-[11px] font-medium text-slate-500 mt-1 block">
@@ -144,7 +144,7 @@ export default function AnalyticsDashboard({ incidents }) {
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
             <div>
               <h2 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Building2 className="w-5 h-5 text-blue-600" />
+                <Building2 className="w-5 h-5 text-amber-400" />
                 Horas Invertidas por Edificio (Pipeline 1)
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -169,7 +169,7 @@ export default function AnalyticsDashboard({ incidents }) {
                   </div>
                   <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-blue-600 to-indigo-500 rounded-full transition-all duration-500"
+                      className="h-full bg-gradient-to-r from-amber-600 to-amber-500 rounded-full transition-all duration-500"
                       style={{ width: `${porcentaje}%` }}
                     />
                   </div>

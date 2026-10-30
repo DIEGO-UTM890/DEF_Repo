@@ -36,16 +36,16 @@ export default function SuperAdminDashboard({ incidents, users }) {
     <div className="space-y-8">
       
       {/* Banner de Cabecera Super Admin */}
-      <div className="bg-gradient-to-r from-amber-950 via-slate-900 to-amber-950 border border-amber-900/50 rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#121316] via-[#1C1D22] to-[#2C2D35]/40 border border-slate-700/60 rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2 border border-amber-500/30">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-semibold uppercase tracking-wider mb-2 border border-amber-500/20">
             <Zap className="w-3.5 h-3.5 text-amber-400" />
             <span>Consola Máster de Infraestructura Cloud & Mantenimiento</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
             Super Administrador del Sistema
           </h1>
-          <p className="text-slate-300 text-sm mt-1 max-w-xl">
+          <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
             Monitoreo en tiempo real de MongoDB Atlas (M0), Upstash Redis (Contador Atómico) y Supabase Storage (Archivos y Evidencias).
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function SuperAdminDashboard({ incidents, users }) {
         <button
           onClick={handleCheckTTL}
           disabled={runningTTLCheck}
-          className="px-6 py-4 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm shadow-xl shadow-amber-600/30 flex items-center justify-center gap-2 active:scale-95 transition-all flex-shrink-0"
+          className="px-6 py-3.5 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-600/20 flex items-center justify-center gap-2 active:scale-95 transition-all flex-shrink-0 cursor-pointer"
         >
           <RefreshCw className={`w-4 h-4 ${runningTTLCheck ? 'animate-spin' : ''}`} />
           <span>{runningTTLCheck ? 'Auditando...' : 'Verificar Limpieza TTL 60 Días'}</span>

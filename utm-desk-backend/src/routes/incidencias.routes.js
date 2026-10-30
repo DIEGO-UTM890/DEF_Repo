@@ -4,6 +4,8 @@ const {
   crearIncidencia,
   obtenerIncidenciaPorId,
   actualizarEstadoIncidencia,
+  gestionarEtiquetas,
+  buscarIncidencias,
   asignarTecnico,
 } = require('../controllers/incidencias.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
@@ -12,7 +14,8 @@ const validateMiddleware = require('../middlewares/validate.middleware');
 const uploadMiddleware = require('../middlewares/upload.middleware');
 const {
   crearIncidenciaSchema,
-  actualizarEstadoIncidenciaSchema,
+  actualizarIncidenciaSchema,
+  gestionarEtiquetasSchema,
   asignarTecnicoSchema,
 } = require('../schemas/incidencia.schema');
 
@@ -21,13 +24,16 @@ const router = Router();
 // Todas las rutas de incidencias requieren token válido
 router.use(authMiddleware);
 
-// Listar incidencias
+// RF-06: Buscador Inteligente en Español con textScore (se define antes de /:id)
+router.get('/search', buscarIncidencias);
+
+// Listar incidencias con filtros
 router.get('/', listarIncidencias);
 
-// Obtener detalle de incidencia por ID
+// Obtener detalle de incidencia por ID o Folio
 router.get('/:id', obtenerIncidenciaPorId);
 
-// Crear nueva incidencia (permite adjuntar hasta 5 archivos como evidencias)
+// RF-01, RF-02 y RF-03: Crear nueva incidencia polimórfica (con o sin evidencias)
 router.post(
   '/',
   uploadMiddleware.array('evidencias', 5),
@@ -35,18 +41,34 @@ router.post(
   crearIncidencia
 );
 
-// Actualizar estado de la incidencia (técnicos, coordinadores y administradores)
+// RF-04: Actualización Atómica de Estado, Bitácora y Horas ($set, $push, $inc)
+router.patch(
+  '/:id',
+  roleMiddleware('admin', 'coordinador', 'tecnico', 'superadmin'),
+  validateMiddleware(actualizarIncidenciaSchema),
+  actualizarEstadoIncidencia
+);
+
+// Alias de compatibilidad para actualizar estado
 router.patch(
   '/:id/estado',
-  roleMiddleware('admin', 'coordinador', 'tecnico'),
-  validateMiddleware(actualizarEstadoIncidenciaSchema),
+  roleMiddleware('admin', 'coordinador', 'tecnico', 'superadmin'),
+  validateMiddleware(actualizarIncidenciaSchema),
   actualizarEstadoIncidencia
+);
+
+// RF-05: Gestión de etiquetas en arreglo embebido ($addToSet y $pull)
+router.patch(
+  '/:id/tags',
+  roleMiddleware('admin', 'coordinador', 'tecnico', 'superadmin'),
+  validateMiddleware(gestionarEtiquetasSchema),
+  gestionarEtiquetas
 );
 
 // Asignar técnico responsable a la incidencia
 router.patch(
   '/:id/asignar',
-  roleMiddleware('admin', 'coordinador'),
+  roleMiddleware('admin', 'coordinador', 'superadmin'),
   validateMiddleware(asignarTecnicoSchema),
   asignarTecnico
 );

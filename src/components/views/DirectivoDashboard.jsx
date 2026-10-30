@@ -26,10 +26,10 @@ export default function DirectivoDashboard({ incidents, currentUser }) {
     <div className="space-y-8">
       
       {/* Banner de Cabecera Ejecutiva */}
-      <div className="bg-gradient-to-r from-indigo-950 via-slate-900 to-indigo-950 border border-indigo-900/50 rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#121316] via-[#1C1D22] to-[#2C2D35]/40 border border-slate-700/60 rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold uppercase tracking-wider mb-2 border border-indigo-500/30">
-            <BarChart3 className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2 border border-amber-500/20">
+            <BarChart3 className="w-3.5 h-3.5 text-amber-400" />
             <span>Tablero de Control Directivo & Toma de Decisiones</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight">
@@ -43,7 +43,7 @@ export default function DirectivoDashboard({ incidents, currentUser }) {
         <button
           onClick={handleExportarInforme}
           disabled={exportando}
-          className="px-6 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2.5 active:scale-95 transition-all flex-shrink-0"
+          className="px-6 py-4 rounded-2xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-sm shadow-xl shadow-amber-600/30 flex items-center justify-center gap-2.5 active:scale-95 transition-all flex-shrink-0 cursor-pointer"
         >
           <FileDown className="w-5 h-5" />
           <span>{exportando ? 'Generando PDF...' : 'Exportar Informe Rectoría (PDF)'}</span>

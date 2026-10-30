@@ -170,7 +170,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
         <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
           Folio Asignado
         </h2>
-        <div className="my-5 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 font-mono text-2xl font-black text-blue-600 dark:text-blue-400 border border-slate-200 dark:border-slate-700 tracking-wider inline-block">
+        <div className="my-5 p-4 rounded-2xl bg-slate-100 dark:bg-slate-800/80 font-mono text-2xl font-black text-amber-400 border border-slate-200 dark:border-slate-700 tracking-wider inline-block">
           {newFolioCreated}
         </div>
         <p className="text-slate-600 dark:text-slate-300 text-sm max-w-md mx-auto mb-8">
@@ -184,13 +184,13 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
               setDescripcion('');
               setEvidencias([]);
             }}
-            className="px-6 py-3.5 rounded-2xl font-bold text-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+            className="px-6 py-3.5 rounded-2xl font-bold text-sm bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
           >
             Levantar Otro Reporte
           </button>
           <button
             onClick={onCancel}
-            className="px-6 py-3.5 rounded-2xl font-bold text-sm bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20 transition-all flex items-center justify-center gap-2"
+            className="px-6 py-3.5 rounded-2xl font-bold text-sm bg-amber-600 hover:bg-amber-500 text-white shadow-lg shadow-amber-600/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
             Ver en Mis Incidencias <ArrowRight className="w-4 h-4" />
           </button>
@@ -205,13 +205,13 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
       {/* Encabezado del Formulario */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
             Formulario Adaptable de Incidencias (RF-01)
           </span>
           {onCancel && (
             <button
               onClick={onCancel}
-              className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm font-semibold flex items-center gap-1"
+              className="text-slate-400 hover:text-slate-200 text-sm font-semibold flex items-center gap-1 cursor-pointer"
             >
               Cancelar
             </button>
@@ -238,17 +238,17 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
             <button
               type="button"
               onClick={() => setCategoria('computo_redes')}
-              className={`p-5 rounded-2xl border-2 text-left transition-all duration-200 flex flex-col justify-between ${
+              className={`p-5 rounded-2xl border-2 text-left transition-all duration-200 flex flex-col justify-between cursor-pointer ${
                 categoria === 'computo_redes'
-                  ? 'border-blue-600 bg-blue-50/70 dark:bg-blue-950/40 ring-4 ring-blue-500/10'
+                  ? 'border-amber-500/80 bg-amber-500/10 dark:bg-amber-500/15 ring-2 ring-amber-500/20'
                   : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-transparent'
               }`}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className={`p-3 rounded-xl ${categoria === 'computo_redes' ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
+                <div className={`p-3 rounded-xl ${categoria === 'computo_redes' ? 'bg-amber-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
                   <Laptop className="w-6 h-6" />
                 </div>
-                {categoria === 'computo_redes' && <CheckCircle2 className="w-5 h-5 text-blue-600 dark:text-blue-400" />}
+                {categoria === 'computo_redes' && <CheckCircle2 className="w-5 h-5 text-amber-400" />}
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base">Cómputo y Redes</h3>
@@ -262,17 +262,17 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
             <button
               type="button"
               onClick={() => setCategoria('infraestructura')}
-              className={`p-5 rounded-2xl border-2 text-left transition-all duration-200 flex flex-col justify-between ${
+              className={`p-5 rounded-2xl border-2 text-left transition-all duration-200 flex flex-col justify-between cursor-pointer ${
                 categoria === 'infraestructura'
-                  ? 'border-amber-500 bg-amber-50/70 dark:bg-amber-950/40 ring-4 ring-amber-500/10'
+                  ? 'border-amber-500/80 bg-amber-500/10 dark:bg-amber-500/15 ring-2 ring-amber-500/20'
                   : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-transparent'
               }`}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className={`p-3 rounded-xl ${categoria === 'infraestructura' ? 'bg-amber-500 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
+                <div className={`p-3 rounded-xl ${categoria === 'infraestructura' ? 'bg-amber-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
                   <Wrench className="w-6 h-6" />
                 </div>
-                {categoria === 'infraestructura' && <CheckCircle2 className="w-5 h-5 text-amber-500" />}
+                {categoria === 'infraestructura' && <CheckCircle2 className="w-5 h-5 text-amber-400" />}
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base">Infraestructura</h3>
@@ -286,17 +286,17 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
             <button
               type="button"
               onClick={() => setCategoria('academico')}
-              className={`p-5 rounded-2xl border-2 text-left transition-all duration-200 flex flex-col justify-between ${
+              className={`p-5 rounded-2xl border-2 text-left transition-all duration-200 flex flex-col justify-between cursor-pointer ${
                 categoria === 'academico'
-                  ? 'border-purple-600 bg-purple-50/70 dark:bg-purple-950/40 ring-4 ring-purple-500/10'
+                  ? 'border-amber-500/80 bg-amber-500/10 dark:bg-amber-500/15 ring-2 ring-amber-500/20'
                   : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-transparent'
               }`}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className={`p-3 rounded-xl ${categoria === 'academico' ? 'bg-purple-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
+                <div className={`p-3 rounded-xl ${categoria === 'academico' ? 'bg-amber-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
                   <GraduationCap className="w-6 h-6" />
                 </div>
-                {categoria === 'academico' && <CheckCircle2 className="w-5 h-5 text-purple-600 dark:text-purple-400" />}
+                {categoria === 'academico' && <CheckCircle2 className="w-5 h-5 text-amber-400" />}
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 dark:text-white text-base">Servicios Académicos</h3>
@@ -326,7 +326,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
                 placeholder="Ej. Falla de conexión en Switch del Laboratorio 2"
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white text-sm font-medium"
+                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-900 dark:text-white text-sm font-medium"
               />
             </div>
 
@@ -340,7 +340,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
                 placeholder="Explica detalladamente qué ocurre, síntomas visibles y momento en que inició..."
-                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-900 dark:text-white text-sm font-medium leading-relaxed"
+                className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-500 text-slate-900 dark:text-white text-sm font-medium leading-relaxed"
               />
             </div>
 
@@ -394,17 +394,17 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
         </div>
 
         {/* PASO 3: Subdocumento Polimórfico detalle_especifico (RF-01) */}
-        <div className="p-6 sm:p-8 bg-blue-50/50 dark:bg-slate-900/90 rounded-3xl border-2 border-dashed border-blue-200 dark:border-blue-900/60 shadow-sm space-y-6">
-          <div className="flex items-center justify-between border-b border-blue-200 dark:border-blue-900/50 pb-3">
+        <div className="p-6 sm:p-8 bg-amber-500/5 dark:bg-[#121316] rounded-3xl border-2 border-dashed border-amber-500/30 shadow-sm space-y-6">
+          <div className="flex items-center justify-between border-b border-amber-500/20 pb-3">
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-amber-400">
                 Campos Especializados de la Categoría
               </span>
               <h3 className="text-lg font-black text-slate-900 dark:text-white">
                 Detalle Específico: {CATEGORIES_CONFIG[categoria].label}
               </h3>
             </div>
-            <span className="text-xs bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-bold px-2.5 py-1 rounded-full border border-blue-200 dark:border-blue-800">
+            <span className="text-xs bg-amber-500/10 text-amber-300 font-bold px-2.5 py-1 rounded-full border border-amber-500/20">
               $jsonSchema Polimórfico
             </span>
           </div>
@@ -529,7 +529,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
                   id="contratista"
                   checked={requiereContratista}
                   onChange={(e) => setRequiereContratista(e.target.checked)}
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
+                  className="w-4 h-4 rounded text-amber-600 focus:ring-amber-500"
                 />
                 <label htmlFor="contratista" className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 cursor-pointer">
                   ¿Requiere intervención de proveedor o contratista externo especializado?
@@ -612,7 +612,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
           </div>
 
           {/* Área de Dropzone */}
-          <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl cursor-pointer bg-slate-50/50 dark:bg-slate-800/40 transition-colors">
+          <label className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-amber-500/50 dark:hover:border-amber-500/50 rounded-2xl cursor-pointer bg-slate-50/50 dark:bg-slate-800/40 transition-colors">
             <UploadCloud className="w-10 h-10 text-slate-400 dark:text-slate-500 mb-2" />
             <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
               Haz clic para seleccionar o arrastra fotos / PDF aquí
@@ -638,7 +638,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
                   className="flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
                 >
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400">
+                    <div className="p-2 rounded-lg bg-amber-500/10 text-amber-300">
                       {ev.tipo_mime.includes('image') ? <ImageIcon className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
                     </div>
                     <div className="truncate">
@@ -666,7 +666,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
         {/* Botón de Enviar Acción Principal */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
           <div className="text-xs text-slate-500 dark:text-slate-400 text-center sm:text-left">
-            Al registrar, se asignará un folio correlativo único <span className="font-mono font-bold text-blue-600 dark:text-blue-400">INC-2026-XXXX</span>
+            Al registrar, se asignará un folio correlativo único <span className="font-mono font-bold text-amber-400">INC-2026-XXXX</span>
           </div>
 
           <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -681,7 +681,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
             )}
             <button
               type="submit"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-500/25 active:scale-98 transition-all flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold text-base bg-amber-600 hover:bg-amber-500 text-white shadow-xl shadow-amber-600/25 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Generar y Enviar Reporte</span>
               <ArrowRight className="w-5 h-5" />

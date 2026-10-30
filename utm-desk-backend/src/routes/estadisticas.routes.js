@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const {
+  metricasDirectivas,
   obtenerResumenEstadisticas,
   metricasPorCategoria,
 } = require('../controllers/estadisticas.controller');
@@ -8,11 +9,14 @@ const roleMiddleware = require('../middlewares/role.middleware');
 
 const router = Router();
 
-// Métricas reservadas para personal administrativo y de soporte
+// Métricas reservadas para directivos, coordinadores, administradores y técnicos
 router.use(authMiddleware);
-router.use(roleMiddleware('admin', 'coordinador', 'tecnico'));
+router.use(roleMiddleware('admin', 'coordinador', 'directivo', 'tecnico', 'superadmin'));
 
-// Resumen general de KPIs y tiempos
+// RF-07: Endpoint oficial de métricas directivas con Aggregation Pipelines (Pipeline 1 y Pipeline 2)
+router.get('/metricas', metricasDirectivas);
+
+// Resumen general de KPIs y tiempos (con soporte de caché Redis)
 router.get('/resumen', obtenerResumenEstadisticas);
 
 // Desglose por categoría

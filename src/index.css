@@ -1,17 +1,74 @@
 @import "tailwindcss";
 
+@theme {
+  /* ── Warm Velvet Slate Palette (Tonos Mate y Elegantes) ── */
+  --color-slate-950: #0B0C0E;   /* bg ultrasuave profundo */
+  --color-slate-900: #121316;   /* bg principal */
+  --color-slate-800: #1C1D22;   /* tarjetas / paneles elevados */
+  --color-slate-700: #2C2D35;   /* bordes y divisiones sutiles */
+  --color-slate-600: #424450;   /* elementos muted / deshabilitados */
+  --color-slate-400: #8E919F;   /* texto secundario */
+  --color-slate-300: #C1C3CE;   /* texto suave */
+  --color-slate-100: #F0F1F5;   /* texto principal claro */
+
+  /* Acento: Ámbar Caramelo Mate / Terracota Suave (CERO neón) */
+  --color-amber-600: #B45309;   /* botón hover mate */
+  --color-amber-500: #D97706;   /* acento principal refinado */
+  --color-amber-400: #F59E0B;   /* texto destacado sutil */
+
+  /* Tokens semánticos UTM Desk */
+  --color-utm-bg:      #121316;
+  --color-utm-surface: #1C1D22;
+  --color-utm-border:  #2C2D35;
+  --color-utm-text:    #F0F1F5;
+  --color-utm-muted:   #8E919F;
+  --color-utm-primary: #D97706;
+  --color-utm-success: #10B981;
+  --color-utm-rose:    #E11D48;
+  --color-utm-amber:   #D97706;
+}
+
 @layer base {
-  :root {
-    color-scheme: light;
+  :root { 
+    color-scheme: dark; 
   }
-  .dark {
-    color-scheme: dark;
+  html, body {
+    background-color: #121316;
+    color: #F0F1F5;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #121316; }
+  ::-webkit-scrollbar-thumb { background: #2C2D35; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #D97706; }
+  ::selection { background-color: rgba(217, 119, 6, 0.25); color: #FFFFFF; }
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #121316;
+  color: #F0F1F5;
+}
+
+/* Efectos de textura sutil de grid y acento cálido refinado */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(217, 119, 6, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.glass-panel {
+  background: rgba(28, 29, 34, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(44, 45, 53, 0.7);
+}
+
+.glass-card {
+  background: rgba(28, 29, 34, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(44, 45, 53, 0.6);
 }

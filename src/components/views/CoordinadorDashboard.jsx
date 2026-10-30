@@ -62,28 +62,28 @@ export default function CoordinadorDashboard({
     <div className="space-y-8">
       
       {/* Banner Principal de Coordinación */}
-      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-[#121316] via-[#1C1D22] to-[#2C2D35]/40 rounded-3xl p-6 sm:p-10 text-white shadow-xl border border-slate-700/60 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-200 text-xs font-bold uppercase tracking-wider mb-2 border border-purple-500/30">
-            <ClipboardCheck className="w-3.5 h-3.5 text-purple-300" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 text-xs font-semibold uppercase tracking-wider mb-2 border border-amber-500/20">
+            <ClipboardCheck className="w-3.5 h-3.5 text-amber-400" />
             <span>Supervisión y Operación del Campus Completo</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight">
+          <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
             Coordinador: {currentUser?.nombre_completo || 'Ing. Roberto Solís Castillo'}
           </h1>
-          <p className="text-purple-100/90 text-sm mt-1 max-w-xl">
+          <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl">
             Supervisión integral de edificios, reasignación de cuadrillas y validación de cierre definitivo de reportes conforme a la Matriz de Control.
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 w-full sm:w-auto">
-          <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md text-center">
-            <span className="text-[10px] uppercase font-bold text-purple-200">En Atención</span>
-            <div className="text-2xl font-black text-white mt-0.5">{enProceso}</div>
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-center">
+            <span className="text-[10px] uppercase font-bold text-slate-400">En Atención</span>
+            <div className="text-2xl font-black text-amber-300 mt-0.5">{enProceso}</div>
           </div>
-          <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md text-center">
-            <span className="text-[10px] uppercase font-bold text-emerald-300">Resueltas/Cerradas</span>
-            <div className="text-2xl font-black text-emerald-300 mt-0.5">{resueltas + cerradas}</div>
+          <div className="p-4 rounded-2xl bg-slate-900/80 border border-slate-700/60 text-center">
+            <span className="text-[10px] uppercase font-bold text-slate-400">Resueltas/Cerradas</span>
+            <div className="text-2xl font-black text-emerald-400 mt-0.5">{resueltas + cerradas}</div>
           </div>
         </div>
       </div>
