@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "utm-desk-api-collection-2026",
+		"name": "UTM Desk - API & Security Test Suite",
+		"description": "Colección completa de pruebas para la API de UTM Desk (Campus Mérida). Incluye validación polimórfica Zod, escudos de seguridad (Helmet, Rate-Limit, Mongo-Sanitize), actualización atómica y agregaciones de MongoDB Atlas.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01. Seguridad & Diagnóstico",
+			"item": [
+				{
+					"name": "Health Check (200 OK)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "health"]
+						},
+						"description": "Verifica estado del servicio y métricas de memoria"
+					}
+				},
+				{
+					"name": "Login - Formato Inválido (400 Bad Request)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"correo\": \"invalido@utmetropolitana.edu.mx\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						},
+						"description": "Prueba de validación de esquema de login"
+					}
+				},
+				{
+					"name": "Defensa Fuerza Bruta - Rate Limit (429)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"correo\": \"ataque@utmetropolitana.edu.mx\",\n  \"password\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						},
+						"description": "Simulación de fuerza bruta superando 5 intentos en 15 minutos"
+					}
+				},
+				{
+					"name": "Sanitización Inyección NoSQL (200 OK)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Bearer {{jwtToken}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"payload\": {\n    \"$gt\": \"\",\n    \"usuario.rol\": \"admin\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/incidencias/test-sanitize",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "incidencias", "test-sanitize"]
+						},
+						"description": "Verifica eliminación de operadores de inyección NoSQL"
+					}
+				}
+			]
+		},
+		{
+			"name": "02. Flujo de Incidencias (RF-01 a RF-06)",
+			"item": [
+				{
+					"name": "Crear Incidencia Cómputo/Redes (201 Created)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Bearer {{jwtToken}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Falla en switch de laboratorio LC2\",\n  \"descripcion\": \"Pérdida de conectividad intermitente en el switch Cisco Catalyst del laboratorio\",\n  \"categoria\": \"computo_redes\",\n  \"prioridad\": \"alta\",\n  \"ubicacion\": {\n    \"edificio\": \"Edificio C - Tecnologías\",\n    \"aula_o_espacio\": \"LC2\",\n    \"planta\": \"alta\"\n  },\n  \"reportante\": {\n    \"nombre\": \"Lizandro Reyes\",\n    \"correo\": \"lizandro.reyes@utmetropolitana.edu.mx\",\n    \"rol\": \"docente\"\n  },\n  \"detalle_especifico\": {\n    \"tipo_dispositivo\": \"switch\",\n    \"direccion_ip\": \"192.168.10.254\",\n    \"vlan\": 20,\n    \"puerto_uplink\": \"Gi0/1\",\n    \"equipos_afectados\": 30\n  },\n  \"tags\": [\"redes\", \"switch\", \"cisco\"]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/incidencias",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "incidencias"]
+						},
+						"description": "Crea una incidencia con validación polimórfica y genera folio atómico"
+					}
+				},
+				{
+					"name": "Actualización Atómica de Ticket (200 OK)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Bearer {{jwtToken}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": \"en_proceso\",\n  \"horas_invertidas\": 2.5,\n  \"entrada_bitacora\": {\n    \"mensaje\": \"Se reemplazó el puerto RJ45 uplink y se restableció el enlace\",\n    \"autor\": \"Técnico de Redes\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/incidencias/{{incidenciaId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "incidencias", "{{incidenciaId}}"]
+						},
+						"description": "Actualiza estado, bitácora ($push) y horas ($inc) atómicamente"
+					}
+				},
+				{
+					"name": "Gestión de Etiquetas - Tags (200 OK)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{"key": "Content-Type", "value": "application/json"},
+							{"key": "Authorization", "value": "Bearer {{jwtToken}}"}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accion\": \"agregar\",\n  \"tag\": \"fibra-optica\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/incidencias/{{incidenciaId}}/tags",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "incidencias", "{{incidenciaId}}", "tags"]
+						},
+						"description": "Agrega tag con $addToSet o remueve con $pull"
+					}
+				},
+				{
+					"name": "Búsqueda con Índice Textual (200 OK)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{jwtToken}}"}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/incidencias/search?q=switch",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "incidencias", "search"],
+							"query": [
+								{"key": "q", "value": "switch"}
+							]
+						},
+						"description": "Búsqueda en lenguaje español proyectando textScore"
+					}
+				}
+			]
+		},
+		{
+			"name": "03. Analítica y Usuarios (RF-07 y RF-08)",
+			"item": [
+				{
+					"name": "Métricas de Incidencias - Aggregations (200 OK)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{jwtToken}}"}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/analitica/metricas",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "analitica", "metricas"]
+						},
+						"description": "Devuelve horas por edificio (Pipeline 1) y top fallas frecuentes (Pipeline 2)"
+					}
+				},
+				{
+					"name": "Listar Usuarios Registrados (200 OK)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{jwtToken}}"}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/usuarios",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "usuarios"]
+						},
+						"description": "Consulta el catálogo de usuarios institucionales en MongoDB Atlas"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:4000",
+			"type": "string"
+		},
+		{
+			"key": "jwtToken",
+			"value": "mock-token-tecnico",
+			"type": "string"
+		},
+		{
+			"key": "incidenciaId",
+			"value": "INC-2026-0001",
+			"type": "string"
+		}
+	]
+}
