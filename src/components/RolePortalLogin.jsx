@@ -346,6 +346,7 @@ export default function RolePortalLogin({
                       <option value="coordinador">Coordinador de Campus</option>
                       <option value="directivo">Directivo Institucional</option>
                       <option value="admin">Administrador de Accesos</option>
+                      <option value="superadmin">Super Administrador (Cloud & Auditoría)</option>
                     </select>
                   </div>
 
