@@ -39,7 +39,8 @@ export async function verificarBackend(force = false) {
     return _backendDisponible;
   }
   try {
-    const res = await fetch('/api/health', { signal: AbortSignal.timeout(2000) });
+    const baseUrl = import.meta.env.VITE_API_URL || '/api';
+    const res = await fetch(`${baseUrl}/health`, { signal: AbortSignal.timeout(2000) });
     _backendDisponible = res.ok;
   } catch {
     _backendDisponible = false;

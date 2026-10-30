@@ -4,7 +4,7 @@
  * Adjunta el token JWT automáticamente y maneja errores de forma consistente.
  */
 
-const BASE_URL = '/api';
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 /**
  * Obtiene el token JWT almacenado en localStorage.
