@@ -71,7 +71,7 @@ export default function IncidentList({
   }, [incidents, selectedCategory, selectedStatus, searchTerm, roleConfig, currentRoleUser]);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-16">
+    <div className="space-y-6 w-full pb-16">
       
       {/* Banner Superior de Bienvenida con Propósito Claro */}
       <div className="bg-gradient-to-r from-[#121316] via-[#1C1D22] to-[#2C2D35]/40 rounded-3xl p-6 sm:p-10 text-[#F0F1F5] shadow-xl border border-[#2C2D35] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
@@ -190,7 +190,7 @@ export default function IncidentList({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {filteredIncidents.map((inc) => {
             const cat = CATEGORIES_CONFIG[inc.categoria] || CATEGORIES_CONFIG.computo_redes;
             const est = ESTADOS.find(e => e.id === inc.estado) || ESTADOS[0];

@@ -180,7 +180,7 @@ export default function App() {
       />
 
       {/* Contenido Principal */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-20 md:pb-12">
+      <main className="flex-1 w-full max-w-[1750px] mx-auto px-4 sm:px-8 lg:px-12 pt-4 pb-20 md:pb-12">
         
         {/* ============================================================== */}
         {/* CASO 1: SIN SESIÓN ACTIVA (BLOQUEO TOTAL) */}
@@ -323,7 +323,7 @@ export default function App() {
 
       {/* Footer Informativo de la Arquitectura */}
       <footer className="border-t border-slate-800/80 bg-[#121316] py-6 text-xs text-slate-400 transition-colors hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="w-full max-w-[1750px] mx-auto px-4 sm:px-8 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-bold text-slate-200">UTM Desk</span>
             <span>•</span>

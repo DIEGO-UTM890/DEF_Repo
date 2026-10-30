@@ -200,7 +200,7 @@ export default function ReportForm({ onAddIncident, onCancel, currentRoleUser })
   }
 
   return (
-    <div className="max-w-4xl mx-auto pb-16">
+    <div className="w-full max-w-6xl mx-auto pb-16">
       
       {/* Encabezado del Formulario */}
       <div className="mb-8">

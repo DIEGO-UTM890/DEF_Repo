@@ -40,7 +40,7 @@ export default function Navbar({
 
   return (
     <header className="sticky top-0 z-40 bg-[#121316]/90 backdrop-blur-xl border-b border-slate-800/80 shadow-sm transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1750px] mx-auto px-4 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-20">
           
           {/* Logo y Nombre Institucional */}

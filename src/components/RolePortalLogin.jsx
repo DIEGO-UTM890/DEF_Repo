@@ -410,7 +410,7 @@ export default function RolePortalLogin({
   // ESTRUCTURA PRINCIPAL: SPLIT-SCREEN CORPORATIVO (2 COLUMNAS)
   // ──────────────────────────────────────────────────────────────────────────
   return (
-    <div className="w-full max-w-6xl mx-auto my-4 sm:my-8 rounded-3xl border border-slate-800/80 bg-[#121316]/90 backdrop-blur-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row items-stretch animate-in fade-in duration-300 relative">
+    <div className="w-full max-w-[1650px] mx-auto my-2 sm:my-6 rounded-3xl border border-slate-800/80 bg-[#121316]/90 backdrop-blur-2xl shadow-2xl overflow-hidden flex flex-col lg:flex-row items-stretch animate-in fade-in duration-300 relative">
       
       {/* Glow de acento sutil en esquina */}
       <div className="absolute -top-32 -left-32 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -419,7 +419,7 @@ export default function RolePortalLogin({
       {/* ===================================================================== */}
       {/* COLUMNA IZQUIERDA: VISUAL CORPORATIVO INSTITUCIONAL */}
       {/* ===================================================================== */}
-      <div className="lg:w-5/12 p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-[#0B0C0E] via-[#121316] to-[#1C1D22] border-b lg:border-b-0 lg:border-r border-slate-800/80">
+      <div className="lg:w-5/12 xl:w-4/12 p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden bg-gradient-to-br from-[#0B0C0E] via-[#121316] to-[#1C1D22] border-b lg:border-b-0 lg:border-r border-slate-800/80">
         
         {/* Textura sutil de cuadrícula de fondo */}
         <div className="absolute inset-0 bg-grid-pattern opacity-25 pointer-events-none"></div>
@@ -542,7 +542,7 @@ export default function RolePortalLogin({
       {/* ===================================================================== */}
       {/* COLUMNA DERECHA: ÁREA INTERACTIVA (SELECTOR DE ROLES O LOGIN) */}
       {/* ===================================================================== */}
-      <div className="lg:w-7/12 p-6 sm:p-10 flex flex-col justify-center bg-slate-900/40 relative">
+      <div className="lg:w-7/12 xl:w-8/12 p-6 sm:p-10 flex flex-col justify-center bg-slate-900/40 relative">
         
         {/* CASO A: SELECTOR DE PORTALES POR ROL */}
         {!selectedRole ? (
@@ -561,8 +561,8 @@ export default function RolePortalLogin({
               </p>
             </div>
 
-            {/* Cuadrícula de Tarjetas de Roles */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            {/* Cuadrícula de Tarjetas de Roles (3 columnas en pantallas grandes para balance perfecto de 6 roles) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {Object.entries(ROLES_CONFIG).map(([key, config]) => {
                 const Icon = ROLE_ICONS[key] || User;
 
